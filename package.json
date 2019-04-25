@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon -L --watch src --exec babel-node src/index.js",
-    "test": "cross-env NODE_ENV=test mocha test/**/*.test.js --require @babel/register --require mocha-steps --exit",
+    "test": "cross-env NODE_ENV=test mocha 'test/**/*.test.js' --recursive --require @babel/register --require mocha-steps --exit",
     "build": "babel src/ -d dist/ -s",
     "docker:build-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache app",
     "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d app",
