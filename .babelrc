@@ -1,0 +1,14 @@
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"]
+      }
+    ],
+    "@babel/plugin-proposal-object-rest-spread",
+    "add-module-exports",
+    "dynamic-import-node"
+  ]
+}

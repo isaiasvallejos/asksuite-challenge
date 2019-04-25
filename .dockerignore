@@ -1,0 +1,12 @@
+.git
+.env
+.env.example
+jsconfig.json
+README.md
+node_modules
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+docker-compose.dev.yml
+npm-debug.log
+Makefile

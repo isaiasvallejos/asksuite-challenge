@@ -1,0 +1,68 @@
+{
+  "name": "asksuite-challenge",
+  "version": "1.0.0",
+  "description": "A webcrawler challenge by Asksuite company",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon -L --watch src --exec babel-node src/index.js",
+    "test": "cross-env NODE_ENV=test mocha test/**/*.test.js --require @babel/register --require mocha-steps --exit",
+    "build": "babel src/ -d dist/ -s",
+    "docker:build-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache app",
+    "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d app",
+    "docker:build": "docker-compose build --no-cache app",
+    "docker:start": "docker-compose up -d app",
+    "docker:init": "docker-compose up --build -d app",
+    "docker:stop": "docker-compose stop app",
+    "docker:remove": "docker-compose rm app",
+    "docker:logs": "docker-compose logs app",
+    "docker:tests": "npm run dev && docker-compose exec app npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaiasvallejos/asksuite-challenge.git"
+  },
+  "keywords": [
+    "asksuite",
+    "challenge",
+    "rest",
+    "api",
+    "webcrawler",
+    "hotel"
+  ],
+  "author": "Isaias Vallejos <me@isaiasvallejos.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isaiasvallejos/asksuite-challenge/issues"
+  },
+  "homepage": "https://github.com/isaiasvallejos/asksuite-challenge#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/register": "^7.0.0",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.2.1",
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "mocha-steps": "^1.3.0",
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "ajv": "^6.10.0",
+    "date-fns": "^2.0.0-alpha.27",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-winston": "^3.1.0",
+    "puppeteer": "^1.14.0",
+    "ramda": "^0.26.1",
+    "ramda-adjunct": "^2.17.0",
+    "winston": "^3.2.1"
+  }
+}
