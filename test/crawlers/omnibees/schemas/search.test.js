@@ -12,9 +12,9 @@ import {
   formatedTomorrow,
   formatedYesterday,
   tomorrow
-} from '../crawlers/omnibees/util'
+} from '../util'
 
-describe('schemas → search', () => {
+describe('crawlers → omnibees → schemas → search', () => {
   it('should fullfil on valid schema', () => {
     const schema = {
       checkIn: formatedTomorrow,
