@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon -L --watch src --exec babel-node src/index.js",
-    "test": "cross-env NODE_ENV=test mocha 'test/**/*.test.js' --recursive --require @babel/register --require mocha-steps --exit",
+    "test": "cross-env NODE_ENV=test mocha 'test/**/*.test.js' --recursive --require @babel/register --require @babel/polyfill --require mocha-steps --exit",
     "build": "babel src/ -d dist/ -s",
     "docker:build-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build --no-cache app",
     "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d app",
@@ -41,6 +41,7 @@
     "@babel/core": "^7.3.3",
     "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.3.1",
     "@babel/register": "^7.0.0",
     "babel-plugin-add-module-exports": "^1.0.0",
@@ -55,13 +56,16 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
+    "accounting": "^0.4.1",
     "ajv": "^6.10.0",
+    "bluebird": "^3.5.4",
     "date-fns": "^2.0.0-alpha.27",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-winston": "^3.1.0",
     "puppeteer": "^1.14.0",
     "query-string": "^6.4.2",
+    "rambda": "^2.4.1",
     "ramda": "^0.26.1",
     "ramda-adjunct": "^2.17.0",
     "winston": "^3.2.1"
