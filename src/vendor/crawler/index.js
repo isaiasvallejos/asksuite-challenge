@@ -25,6 +25,9 @@ export const pageWaitForSelector = curry((selector, page) =>
   page.waitForSelector(selector)
 )
 
+// pageWaitForMs :: Integer -> Crawler.Page -> Promise<Crawler.Page>
+export const pageWaitForMs = curry((ms, page) => page.waitFor(ms))
+
 // pageWaitForFunction :: Crawler.FunctionString -> Crawler.Page -> Promise<Crawler.Page>
 export const pageWaitForFunction = curry((fn, page) => page.waitForFunction(fn))
 
