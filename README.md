@@ -51,7 +51,7 @@ checkIn: string
 checkOut: string
 adults?: integer
 childrens?: integer
-childrensAges?: integer[]
+childrensAge?: integer[]
 ```
 
 Infelizmente, ainda o tempo de requisição **pode demorar até 35 segundos**.
