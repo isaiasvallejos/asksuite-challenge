@@ -105,9 +105,9 @@ export const searchToHashString = compose(
 )
 
 // mountUrl :: String -> Integer -> Omnibees.Search -> String
-export const mountUrl = curry((url, clientId, search) =>
+export const mountUrl = curry((uri, clientId, search) =>
   concatAll([
-    url,
+    uri,
     '?c=',
     String(clientId),
     '&',
