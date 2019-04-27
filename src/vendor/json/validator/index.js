@@ -17,6 +17,9 @@ export const compileSchema = curryAsync(async (validator, schema, data) => {
     const compile = validator.compile({ $async: true, ...schema })
     return await compile(data)
   } catch (error) {
-    throw assoc('code', 'EVALIDATION', error)
+    error.code = 'EVALIDATION'
+    error.prototype = new Error()
+
+    throw error
   }
 })
