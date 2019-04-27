@@ -11,3 +11,11 @@ export const formatedAfterTomorrow = format(
   afterTomorrow,
   VALIDATION_DATE_FORMAT
 )
+export const search = {
+  checkIn: formatedTomorrow,
+  checkOut: formatedAfterTomorrow,
+  rooms: 1,
+  adults: 1,
+  childrens: 2,
+  childrensAge: [10, 15]
+}

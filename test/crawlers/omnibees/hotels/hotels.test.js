@@ -4,7 +4,7 @@ import chaiAsPromised from 'chai-as-promised'
 chai.should()
 chai.use(chaiAsPromised)
 
-import { formatedTomorrow, formatedAfterTomorrow } from '../util'
+import { search } from '../util'
 import { launchBrowser, createBrowserPage } from 'vendor/crawler'
 
 import {
@@ -27,15 +27,6 @@ import {
 describe('crawlers → omnibees → hotels', () => {
   const url = process.env.TEST_OMNIBEES_URL
   const clientId = process.env.TEST_OMNIBEES_CLIENT_ID
-
-  const search = {
-    checkIn: formatedTomorrow,
-    checkOut: formatedAfterTomorrow,
-    rooms: 1,
-    adults: 1,
-    childrens: 2,
-    childrensAge: [10, 15]
-  }
 
   let page
   let $hotels
