@@ -16,7 +16,7 @@
     "docker:stop": "docker-compose stop app",
     "docker:remove": "docker-compose rm app",
     "docker:logs": "docker-compose logs app",
-    "docker:tests": "npm run dev && docker-compose exec app npm run test"
+    "docker:tests": "npm run docker:dev && docker-compose exec app npm run test"
   },
   "repository": {
     "type": "git",
