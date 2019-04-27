@@ -1,4 +1,9 @@
 import { handleEvaluate, handleQueryAll } from 'vendor/crawler/handles'
+import { pageQuerySelector } from 'vendor/crawler'
+
+// get$RoomDetails :: Omnibees.RoomDetailsPage -> Promise<Omnibees.ElementHandle.RoomDetails>
+export const get$RoomDetails = roomDetailsPage =>
+  pageQuerySelector('#popupModule', roomDetailsPage)
 
 // get$RoomTitle :: Omnibees.ElementHandle.RoomDetails -> Promise<String>
 export const get$RoomTitle = handleEvaluate(

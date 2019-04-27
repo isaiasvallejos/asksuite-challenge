@@ -5,6 +5,14 @@ import {
   handleHasClass
 } from 'vendor/crawler/handles'
 import { unformatMoney } from 'util/money'
+import { pageQuerySelectorAll } from 'vendor/crawler'
+
+// get$Rooms :: Omnibees.RoomsPage -> Promise<Omnibees.ElementHandle.Room[]>
+export const get$Rooms = roomsPage =>
+  pageQuerySelectorAll(
+    '#rooms_results .entries .entry .content .roomName',
+    roomsPage
+  )
 
 // is$RoomWithRestriction :: Omnibees.ElementHandle.Room -> Promise<Boolean>
 export const is$RoomWithRestriction = handleEvaluate(
@@ -19,11 +27,11 @@ export const get$RoomImages = handleEvaluateAll(
 )
 
 // get$RoomPrice :: Omnibees.ElementHandle.Room -> Promise<String>
-export const get$RoomPrice = async $hotel => {
+export const get$RoomPrice = async $room => {
   const priceString = await handleEvaluate(
     '.roomExcerpt .sincePriceContent h6',
     $h6 => $h6.textContent,
-    $hotel
+    $room
   )
 
   return unformatMoney(priceString)

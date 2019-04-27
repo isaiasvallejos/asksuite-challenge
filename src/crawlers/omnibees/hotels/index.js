@@ -1,11 +1,4 @@
-import { filter as filterP } from 'bluebird'
-
-import {
-  gotoPage,
-  pageWaitForSelector,
-  pageQuerySelectorAll
-} from 'vendor/crawler'
-import { handleHasAnyClass } from 'vendor/crawler/handles'
+import { gotoPage, pageWaitForSelector } from 'vendor/crawler'
 import { validateOmnibeesSearch } from '../schema'
 import { mountUrl } from './url'
 import { curryAsync } from 'util/ramda'
@@ -24,16 +17,4 @@ export const goToHotelsPage = curryAsync(
     await waitFor$Hotels(page)
     return page
   }
-)
-
-// get$Hotels :: Omnibees.HotelsPage -> Promise<Omnibees.ElementHandle.Hotel[]>
-export const get$Hotels = hotelsPage =>
-  pageQuerySelectorAll('#search_results .entries .entry', hotelsPage)
-
-// get$AvailableHotels :: Omnibees.HotelsPage -> Omnibees.ElementHandle.Hotel[] -> Promise<Omnibees.ElementHandle.AvailableHotel[]>
-export const get$AvailableHotels = curryAsync((hotelsPage, $hotels) =>
-  filterP(
-    $hotels,
-    handleHasAnyClass(['available', 'available_withRestriction'], hotelsPage)
-  )
 )

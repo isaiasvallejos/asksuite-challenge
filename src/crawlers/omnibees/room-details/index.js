@@ -1,9 +1,4 @@
-import {
-  gotoPage,
-  pageWaitForSelector,
-  pageQuerySelector,
-  pageWaitForMs
-} from 'vendor/crawler'
+import { gotoPage, pageWaitForSelector } from 'vendor/crawler'
 import { curryAsync } from 'util/ramda'
 
 // waitFor$RoomDetails :: Omnibees.RoomDetailsPage -> Promise<Omnibees.ElementHandle.RoomDetails>
@@ -23,7 +18,3 @@ export const goToRoomDetailsPage = curryAsync(async (url, page) => {
 
   return page
 })
-
-// get$RoomDetails :: Omnibees.RoomDetailsPage -> Promise<Omnibees.ElementHandle.RoomDetails>
-export const get$RoomDetails = roomDetailsPage =>
-  pageQuerySelector('#popupModule', roomDetailsPage)

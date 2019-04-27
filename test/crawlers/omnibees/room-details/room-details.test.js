@@ -5,26 +5,24 @@ chai.should()
 chai.use(chaiAsPromised)
 
 import { launchBrowser, createBrowserPage } from 'vendor/crawler'
+import { goToHotelsPage } from 'crawlers/omnibees/hotels'
 import {
-  goToHotelsPage,
+  get$HotelRoomsUrl,
   get$Hotels,
   get$AvailableHotels
-} from 'crawlers/omnibees/hotels'
-import { get$HotelRoomsUrl } from 'crawlers/omnibees/hotels/props'
-import { goToRoomsPage, get$Rooms } from 'crawlers/omnibees/rooms'
-import { get$RoomDetailsUrl } from 'crawlers/omnibees/rooms/props'
+} from 'crawlers/omnibees/hotels/getters'
+import { goToRoomsPage } from 'crawlers/omnibees/rooms'
+import { get$RoomDetailsUrl, get$Rooms } from 'crawlers/omnibees/rooms/getters'
 import { search } from '../util'
-import {
-  goToRoomDetailsPage,
-  get$RoomDetails
-} from 'crawlers/omnibees/room-details'
+import { goToRoomDetailsPage } from 'crawlers/omnibees/room-details'
 import {
   get$RoomDescription,
   get$RoomAmenities,
   get$RoomAmenityTitle,
   get$RoomAmenityList,
-  get$RoomTitle
-} from 'crawlers/omnibees/room-details/props'
+  get$RoomTitle,
+  get$RoomDetails
+} from 'crawlers/omnibees/room-details/getters'
 
 describe('crawlers → omnibees → rooms → details', () => {
   const hotelsUrl = process.env.TEST_OMNIBEES_URL

@@ -7,11 +7,7 @@ chai.use(chaiAsPromised)
 import { search } from '../util'
 import { launchBrowser, createBrowserPage } from 'vendor/crawler'
 
-import {
-  goToHotelsPage,
-  get$Hotels,
-  get$AvailableHotels
-} from 'crawlers/omnibees/hotels'
+import { goToHotelsPage } from 'crawlers/omnibees/hotels'
 import {
   get$HotelDescription,
   get$HotelAddress,
@@ -21,8 +17,10 @@ import {
   get$HotelPrice,
   get$HotelName,
   get$HotelRoomsUrl,
-  is$HotelWithRestrictions
-} from 'crawlers/omnibees/hotels/props'
+  is$HotelWithRestrictions,
+  get$Hotels,
+  get$AvailableHotels
+} from 'crawlers/omnibees/hotels/getters'
 
 describe('crawlers → omnibees → hotels', () => {
   const url = process.env.TEST_OMNIBEES_URL
