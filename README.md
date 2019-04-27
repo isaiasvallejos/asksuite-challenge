@@ -36,7 +36,7 @@ Recomenda-se a instalação da aplicação em cima de um ambiente Docker.
 ```sh
 $ git clone https://github.com/isaiasvallejos/asksuite-challenge
 $ cd asksuite-challenge
-$ mv .env.example .env
+$ mv .env.example .env # ren .env.example .env (Windows)
 $ make dev # npm run docker:dev
 ```
 
