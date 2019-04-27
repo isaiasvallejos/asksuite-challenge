@@ -1,5 +1,13 @@
-import { gotoPage, pageWaitForSelector, pageWaitForMs } from 'vendor/crawler'
+import { map as mapP } from 'bluebird'
+import {
+  gotoPage,
+  pageWaitForSelector,
+  pageWaitForMs,
+  createBrowserPage
+} from 'vendor/crawler'
 import { curryAsync } from 'util/ramda'
+import { browser } from 'crawlers'
+import { get$Rooms, get$RoomAsObject } from './getters'
 
 // waitFor$Rooms :: Omnibees.RoomsPage -> Promise<Omnibees.ElementHandle.Rooms>
 export const waitFor$Rooms = async roomsPage => {
@@ -19,3 +27,12 @@ export const goToRoomsPage = curryAsync(async (url, page) => {
 
   return page
 })
+
+// getRoomsByUrl :: String -> Promise<Omnibees.Room[]>
+export const getRoomsByUrl = async url => {
+  const page = await createBrowserPage(browser)
+
+  await goToRoomsPage(url, page)
+  const $rooms = await get$Rooms(page)
+  return await mapP($rooms, get$RoomAsObject)
+}

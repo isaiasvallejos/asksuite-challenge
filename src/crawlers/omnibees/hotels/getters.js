@@ -1,4 +1,5 @@
-import { filter as filterP } from 'bluebird'
+import { filter as filterP, map as mapP } from 'bluebird'
+import { pipe } from 'ramda'
 import {
   handleEvaluateAll,
   handleEvaluate,
@@ -9,6 +10,19 @@ import {
 import { pageQuerySelectorAll } from 'vendor/crawler'
 import { unformatMoney } from 'util/money'
 import { curryAsync } from 'util/ramda'
+import {
+  setRestricted,
+  setPrice,
+  setDescription,
+  setAddress,
+  setRoomsUrl,
+  setAmenities,
+  setAmenityTitle,
+  setAmenityValues,
+  setName,
+  setRooms
+} from './props'
+import { getRoomsByUrl } from '../rooms'
 
 // get$Hotels :: Omnibees.HotelsPage -> Promise<Omnibees.ElementHandle.Hotel[]>
 export const get$Hotels = hotelsPage =>
@@ -80,3 +94,43 @@ export const get$HotelAmenityList = handleEvaluate('ul', $ul =>
     .map(amenityString => amenityString.trim())
     .filter(amenityString => !!amenityString)
 )
+
+// get$HotelAmenityAsObject :: Omnibees.ElementHandle.HotelAmenity -> Promise<Omnibees.HotelAmenity>
+export const get$HotelAmenityAsObject = async $amenity => {
+  const title = await get$HotelAmenityTitle($amenity)
+  const values = await get$HotelAmenityList($amenity)
+
+  return pipe(
+    setAmenityTitle(title),
+    setAmenityValues(values)
+  )({})
+}
+
+// get$HotelAmenitiesAsList :: Omnibees.ElementHandle.Hotel -> Promise<Omnibees.HotelAmenity[]>
+export const get$HotelAmenitiesAsList = async $hotel => {
+  const $amenities = await get$HotelAmenities($hotel)
+  return mapP($amenities, get$HotelAmenityAsObject)
+}
+
+// get$HotelAsObject :: Omnibees.HotelsPage -> Omnibees.ElementHandle.Hotel -> Promise<Omnibees.Hotel>
+export const get$HotelAsObject = curryAsync(async (hotelsPage, $hotel) => {
+  const restricted = await is$HotelWithRestrictions(hotelsPage, $hotel)
+  const name = await get$HotelName($hotel)
+  const price = await get$HotelPrice($hotel)
+  const description = await get$HotelDescription($hotel)
+  const address = await get$HotelAddress($hotel)
+  const roomsUrl = await get$HotelRoomsUrl($hotel)
+  const amenities = await get$HotelAmenitiesAsList($hotel)
+  const rooms = await getRoomsByUrl(roomsUrl)
+
+  return pipe(
+    setRestricted(restricted),
+    setName(name),
+    setPrice(price),
+    setDescription(description),
+    setAddress(address),
+    setRoomsUrl(roomsUrl),
+    setAmenities(amenities),
+    setRooms(rooms)
+  )({})
+})

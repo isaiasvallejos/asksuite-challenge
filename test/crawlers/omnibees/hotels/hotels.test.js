@@ -19,24 +19,28 @@ import {
   get$HotelRoomsUrl,
   is$HotelWithRestrictions,
   get$Hotels,
-  get$AvailableHotels
+  get$AvailableHotels,
+  get$HotelAsObject
 } from 'crawlers/omnibees/hotels/getters'
+import { mountUrl } from 'crawlers/omnibees/hotels/url'
+import startCrawler, { browser } from 'crawlers'
 
 describe('crawlers → omnibees → hotels', () => {
-  const url = process.env.TEST_OMNIBEES_URL
+  const uri = process.env.TEST_OMNIBEES_URI
   const clientId = process.env.TEST_OMNIBEES_CLIENT_ID
+  const url = mountUrl(uri, clientId, search)
 
   let page
   let $hotels
 
   before('should get a browser page', async function() {
     this.timeout(10000)
-    const browser = await launchBrowser()
+    await startCrawler()
     page = await createBrowserPage(browser)
   })
 
   step('should go to hotels page', () => {
-    return goToHotelsPage(url, clientId, search, page).should.be.fulfilled
+    return goToHotelsPage(url, page).should.be.fulfilled
   }).timeout(20000)
 
   step('should get hotels', async () => {
@@ -119,5 +123,20 @@ describe('crawlers → omnibees → hotels', () => {
         return list.should.to.be.ok.and.to.not.be.empty
       })
     })
+
+    step('should get hotel as object', async () => {
+      const hotel = await get$HotelAsObject(page, $hotel)
+
+      return hotel.should.to.have.all.keys([
+        'name',
+        'description',
+        'amenities',
+        'restricted',
+        'price',
+        'roomsUrl',
+        'address',
+        'rooms'
+      ])
+    }).timeout(20000)
   })
 })
