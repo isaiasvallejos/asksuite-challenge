@@ -17,7 +17,7 @@ export const validateOmnibeesSearch = compileSchema(validator, {
     },
     checkIn: {
       type: 'string',
-      isFuture: true
+      isTodayOrFuture: true
     },
     checkOut: {
       type: 'string',
