@@ -6,7 +6,7 @@ Em produção em: https://crawler.isaiasvallejos.dev
 
 ## Sumário
 
-Esse repositório representa um desafio proposto pela empresa [Asksuite](https://feracode.com/) e está sendo disponibilizado também como caso de estudo e portfolio.
+Esse repositório representa um desafio proposto pela empresa [Asksuite](https://asksuite.com/) e está sendo disponibilizado também como caso de estudo e portfolio.
 
 ## O que é?
 
