@@ -11,6 +11,25 @@ export const launchBrowser = () =>
 // createBrowserPage :: Crawler.Browser -> Promise<Crawler.Page>
 export const createBrowserPage = browser => browser.newPage()
 
+// launchBrowserAndCreatePage :: romise<Crawler.Page>
+export const launchBrowserAndCreatePage = async () => {
+  const browser = await launchBrowser()
+  return await createBrowserPage(browser)
+}
+
+// closePage :: Crawler.Page :: Promise<None>
+export const closePage = page => page.close()
+
+// closeBrowser :: Crawler.Browser :: Promise<None>
+export const closeBrowser = browser => browser.close()
+
+// closePageWithBrowser :: Crawler.Page :: Promise<None>
+export const closePageWithBrowser = async page => {
+  const browser = await page.browser()
+  await closePage(page)
+  return await closeBrowser(browser)
+}
+
 // gotoPage :: Crawler.Page -> Crawler.Page -> Promise<Crawler.Page>
 export const gotoPage = curry((url, page) => page.goto(url))
 
