@@ -4,12 +4,12 @@ import { isNotEmpty } from 'ramda-adjunct'
 import {
   gotoPage,
   pageWaitForSelector,
-  createBrowserPage
+  launchBrowserAndCreatePage,
+  closePageWithBrowser
 } from 'vendor/crawler'
 import { validateOmnibeesSearch } from '../schema'
 import { mountUrl } from './url'
 import { curryAsync } from 'util/ramda'
-import { browser } from 'crawlers'
 import { get$Hotels, get$AvailableHotels, get$HotelAsObject } from './getters'
 import { getRooms } from './props'
 
@@ -27,12 +27,12 @@ export const goToHotelsPage = curryAsync(async (url, page) => {
 
 // getHotelsByUrl :: String -> Promise<Omnibees.Hotel[]>
 export const getHotelsByUrl = async url => {
-  const hotelsPage = await createBrowserPage(browser)
+  const page = await launchBrowserAndCreatePage()
 
-  await goToHotelsPage(url, hotelsPage)
-  const $hotels = await get$Hotels(hotelsPage)
-  const $availableHotels = await get$AvailableHotels(hotelsPage, $hotels)
-  const hotels = await mapP($availableHotels, get$HotelAsObject(hotelsPage))
+  await goToHotelsPage(url, page)
+  const $hotels = await get$Hotels(page)
+  const $availableHotels = await get$AvailableHotels(page, $hotels)
+  const hotels = await mapP($availableHotels, get$HotelAsObject(page))
   const hotelsWithRooms = filter(
     compose(
       isNotEmpty,
@@ -41,6 +41,7 @@ export const getHotelsByUrl = async url => {
     hotels
   )
 
+  await closePageWithBrowser(page)
   return hotelsWithRooms
 }
 

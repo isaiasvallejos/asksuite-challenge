@@ -23,7 +23,7 @@ import {
   get$HotelAsObject
 } from 'crawlers/omnibees/hotels/getters'
 import { mountUrl } from 'crawlers/omnibees/hotels/url'
-import startCrawler, { browser } from 'crawlers'
+import { launchBrowserAndCreatePage } from 'vendor/crawler'
 
 describe('crawlers → omnibees → hotels', () => {
   const uri = process.env.TEST_OMNIBEES_URI
@@ -35,8 +35,7 @@ describe('crawlers → omnibees → hotels', () => {
 
   before('should get a browser page', async function() {
     this.timeout(10000)
-    await startCrawler()
-    page = await createBrowserPage(browser)
+    page = await launchBrowserAndCreatePage()
   })
 
   step('should go to hotels page', () => {
