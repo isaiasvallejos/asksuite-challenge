@@ -11,7 +11,7 @@ import { validateOmnibeesSearch } from '../schema'
 import { mountUrl } from './url'
 import { curryAsync } from 'util/ramda'
 import { get$Hotels, get$AvailableHotels, get$HotelAsObject } from './getters'
-import { getRooms } from './props'
+import { isHotelWithRooms } from './props'
 
 // waitFor$Hotels :: Omnibees.HotelsPage -> Promise<Omnibees.ElementHandle.Hotels>
 export const waitFor$Hotels = hotelsPage =>
@@ -33,13 +33,7 @@ export const getHotelsByUrl = async url => {
   const $hotels = await get$Hotels(page)
   const $availableHotels = await get$AvailableHotels(page, $hotels)
   const hotels = await mapP($availableHotels, get$HotelAsObject(page))
-  const hotelsWithRooms = filter(
-    compose(
-      isNotEmpty,
-      getRooms
-    ),
-    hotels
-  )
+  const hotelsWithRooms = filter(isHotelWithRooms, hotels)
 
   await closePageWithBrowser(page)
   return hotelsWithRooms

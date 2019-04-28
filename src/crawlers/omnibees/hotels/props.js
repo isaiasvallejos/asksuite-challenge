@@ -1,4 +1,5 @@
-import { prop, assoc } from 'ramda'
+import { prop, assoc, compose } from 'ramda'
+import { isNotEmpty } from 'ramda-adjunct'
 
 // getRestricted :: Omnibees.Hotel -> Boolean
 export const getRestricted = prop('restricted')
@@ -59,3 +60,9 @@ export const setAmenityTitle = assoc('title')
 
 // setAmenityValues :: String[] -> Omnibees.HotelAmenity
 export const setAmenityValues = assoc('values')
+
+// isHotelWithRooms :: Omnibees.Hotel -> Boolean
+export const isHotelWithRooms = compose(
+  isNotEmpty,
+  getRooms
+)
