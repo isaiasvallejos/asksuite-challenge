@@ -2,8 +2,6 @@
 
 ![](https://img.shields.io/github/package-json/v/isaiasvallejos/asksuite-challenge.svg) ![](https://img.shields.io/github/license/isaiasvallejos/asksuite-challenge.svg) ![](https://img.shields.io/github/languages/top/isaiasvallejos/asksuite-challenge.svg?&color=yellow)
 
-Em produção em: https://crawler.isaiasvallejos.dev
-
 ## Sumário
 
 Esse repositório representa um desafio proposto pela empresa [Asksuite](https://asksuite.com/) e está sendo disponibilizado também como caso de estudo e portfolio.
