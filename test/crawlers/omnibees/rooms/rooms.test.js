@@ -24,6 +24,7 @@ import {
 } from 'crawlers/omnibees/rooms/getters'
 import { mountUrl } from 'crawlers/omnibees/hotels/url'
 import { launchBrowserAndCreatePage } from 'vendor/crawler'
+import { getLanguageFromUrl } from 'crawlers/omnibees/url'
 
 describe('crawlers → omnibees → rooms', () => {
   const uri = process.env.TEST_OMNIBEES_URI
@@ -106,7 +107,8 @@ describe('crawlers → omnibees → rooms', () => {
   })
 
   step('should get room as object', async () => {
-    const room = await get$RoomAsObject($room)
+    const lang = getLanguageFromUrl(url)
+    const room = await get$RoomAsObject(lang, $room)
 
     return room.should.to.have.all.keys([
       'title',

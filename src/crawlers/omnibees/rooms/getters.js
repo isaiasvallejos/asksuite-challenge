@@ -9,6 +9,7 @@ import { unformatMoney } from 'util/money'
 import { pageQuerySelectorAll } from 'vendor/crawler'
 import { setRestricted, setImages, setPrice, setDetailsUrl } from './props'
 import { getRoomDetailsByUrl } from '../room-details'
+import { curryAsync } from 'util/ramda'
 
 // get$Rooms :: Omnibees.RoomsPage -> Promise<Omnibees.ElementHandle.Room[]>
 export const get$Rooms = roomsPage =>
@@ -47,12 +48,12 @@ export const get$RoomDetailsUrl = handleEvaluate(
 )
 
 // get$RoomAsObject :: Omnibees.ElementHandle.Room -> Promise<Omnibees.Room>
-export const get$RoomAsObject = async $room => {
+export const get$RoomAsObject = curryAsync(async (lang, $room) => {
   const restricted = await is$RoomWithRestriction($room)
   const images = await get$RoomImages($room)
   const price = await get$RoomPrice($room)
   const detailsUrl = await get$RoomDetailsUrl($room)
-  const details = await getRoomDetailsByUrl(detailsUrl)
+  const details = await getRoomDetailsByUrl(lang, detailsUrl)
 
   return pipe(
     setRestricted(restricted),
@@ -60,4 +61,4 @@ export const get$RoomAsObject = async $room => {
     setPrice(price),
     setDetailsUrl(detailsUrl)
   )({ ...details })
-}
+})

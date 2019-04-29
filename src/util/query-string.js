@@ -1,4 +1,14 @@
-import { compose, prop, dissocPath, curry, concat, converge, __ } from 'ramda'
+import {
+  compose,
+  prop,
+  path,
+  dissocPath,
+  curry,
+  concat,
+  converge,
+  __,
+  assocPath
+} from 'ramda'
 import { parseUrl } from 'query-string'
 import { stringify } from 'querystring'
 
@@ -25,6 +35,23 @@ export const removeQueryParameterFromUrl = curry((parameter, url) =>
   compose(
     parsedToString,
     dissocPath(['query', parameter]),
+    parseUrl
+  )(url)
+)
+
+// addQueryParameterFromUrl :: String -> String -> String
+export const addQueryParameterToUrl = curry((parameter, value, url) =>
+  compose(
+    parsedToString,
+    assocPath(['query', parameter], value),
+    parseUrl
+  )(url)
+)
+
+// getQueryParameterFromUrl :: String -> String -> String
+export const getQueryParameterFromUrl = curry((parameter, url) =>
+  compose(
+    path(['query', parameter]),
     parseUrl
   )(url)
 )
