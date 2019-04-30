@@ -5,7 +5,6 @@ import {
 } from 'vendor/crawler'
 import { curryAsync } from 'util/ramda'
 import { get$RoomDetails, get$RoomDetailsAsObject } from './getters'
-import { addLanguageToUrl } from '../url'
 
 // waitFor$RoomDetails :: Omnibees.RoomDetailsPage -> Promise<Omnibees.ElementHandle.RoomDetails>
 export const waitFor$RoomDetails = async roomDetailsPage => {
@@ -27,10 +26,8 @@ export const goToRoomDetailsPage = curryAsync(async (url, page) => {
 
 // getRoomDetailsByUrl :: String -> Promise<Omnibees.RoomDetails>
 export const getRoomDetailsByUrl = usingBrowserPageCreator(
-  curryAsync(async (page, lang, url) => {
-    const urlWithLanguage = addLanguageToUrl(lang, url)
-
-    await goToRoomDetailsPage(urlWithLanguage, page)
+  curryAsync(async (page, url) => {
+    await goToRoomDetailsPage(url, page)
     const $roomDetails = await get$RoomDetails(page)
     const roomDetails = await get$RoomDetailsAsObject($roomDetails)
 

@@ -10,6 +10,7 @@ import { pageQuerySelectorAll } from 'vendor/crawler'
 import { setRestricted, setImages, setPrice, setDetailsUrl } from './props'
 import { getRoomDetailsByUrl } from '../room-details'
 import { curryAsync } from 'util/ramda'
+import { addLanguageToUrl } from '../url'
 
 // get$Rooms :: Omnibees.RoomsPage -> Promise<Omnibees.ElementHandle.Room[]>
 export const get$Rooms = roomsPage =>
@@ -49,11 +50,15 @@ export const get$RoomDetailsUrl = handleEvaluate(
 
 // get$RoomAsObject :: Omnibees.ElementHandle.Room -> Promise<Omnibees.Room>
 export const get$RoomAsObject = curryAsync(async (lang, $room) => {
-  const restricted = await is$RoomWithRestriction($room)
-  const images = await get$RoomImages($room)
-  const price = await get$RoomPrice($room)
-  const detailsUrl = await get$RoomDetailsUrl($room)
-  const details = await getRoomDetailsByUrl(lang, detailsUrl)
+  const [restricted, images, price, detailsUrl] = await Promise.all([
+    is$RoomWithRestriction($room),
+    get$RoomImages($room),
+    get$RoomPrice($room),
+    get$RoomDetailsUrl($room)
+  ])
+
+  const detailsUrlWithLanguage = addLanguageToUrl(lang, detailsUrl)
+  const details = await getRoomDetailsByUrl(detailsUrlWithLanguage)
 
   return pipe(
     setRestricted(restricted),

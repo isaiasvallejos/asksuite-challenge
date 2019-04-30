@@ -114,13 +114,24 @@ export const get$HotelAmenitiesAsList = async $hotel => {
 
 // get$HotelAsObject :: Omnibees.HotelsPage -> Omnibees.ElementHandle.Hotel -> Promise<Omnibees.Hotel>
 export const get$HotelAsObject = curryAsync(async (hotelsPage, $hotel) => {
-  const restricted = await is$HotelWithRestrictions(hotelsPage, $hotel)
-  const name = await get$HotelName($hotel)
-  const price = await get$HotelPrice($hotel)
-  const description = await get$HotelDescription($hotel)
-  const address = await get$HotelAddress($hotel)
-  const roomsUrl = await get$HotelRoomsUrl($hotel)
-  const amenities = await get$HotelAmenitiesAsList($hotel)
+  const [
+    restricted,
+    name,
+    price,
+    description,
+    address,
+    roomsUrl,
+    amenities
+  ] = await Promise.all([
+    is$HotelWithRestrictions(hotelsPage, $hotel),
+    get$HotelName($hotel),
+    get$HotelPrice($hotel),
+    get$HotelDescription($hotel),
+    get$HotelAddress($hotel),
+    get$HotelRoomsUrl($hotel),
+    get$HotelAmenitiesAsList($hotel)
+  ])
+
   const rooms = await getRoomsByUrl(roomsUrl)
 
   return pipe(

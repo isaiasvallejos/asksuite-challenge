@@ -71,9 +71,11 @@ export const get$RoomAmenitiesAsList = async $roomDetails => {
 
 // get$RoomDetailsAsObject :: Omnibees.ElementHandle.RoomDetails -> Promise<Omnibees.RoomDetails>
 export const get$RoomDetailsAsObject = async $roomDetails => {
-  const title = await get$RoomTitle($roomDetails)
-  const description = await get$RoomDescription($roomDetails)
-  const amenities = await get$RoomAmenitiesAsList($roomDetails)
+  const [title, description, amenities] = await Promise.all([
+    get$RoomTitle($roomDetails),
+    get$RoomDescription($roomDetails),
+    get$RoomAmenitiesAsList($roomDetails)
+  ])
 
   return pipe(
     setTitle(title),
