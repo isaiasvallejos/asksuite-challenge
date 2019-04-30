@@ -1,11 +1,9 @@
 import { map as mapP } from 'bluebird'
-import { filter, compose } from 'ramda'
-import { isNotEmpty } from 'ramda-adjunct'
+import { filter } from 'ramda'
 import {
   gotoPage,
   pageWaitForSelector,
-  launchBrowserAndCreatePage,
-  closePageWithBrowser
+  usingBrowserPageCreator
 } from 'vendor/crawler'
 import { validateOmnibeesSearch } from '../schema'
 import { mountUrl } from './url'
@@ -26,18 +24,15 @@ export const goToHotelsPage = curryAsync(async (url, page) => {
 })
 
 // getHotelsByUrl :: String -> Promise<Omnibees.Hotel[]>
-export const getHotelsByUrl = async url => {
-  const page = await launchBrowserAndCreatePage()
-
+export const getHotelsByUrl = usingBrowserPageCreator(async (page, url) => {
   await goToHotelsPage(url, page)
   const $hotels = await get$Hotels(page)
   const $availableHotels = await get$AvailableHotels(page, $hotels)
   const hotels = await mapP($availableHotels, get$HotelAsObject(page))
   const hotelsWithRooms = filter(isHotelWithRooms, hotels)
 
-  await closePageWithBrowser(page)
   return hotelsWithRooms
-}
+})
 
 // getHotelsBySearch :: String -> Integer -> Omnibees.Search -> Promise<Omnibees.HotelSearch>
 export const getHotelsBySearch = curryAsync(async (uri, clientId, search) => {

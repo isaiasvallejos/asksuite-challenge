@@ -1,5 +1,8 @@
 import puppeteer from 'puppeteer'
-import { curry } from 'ramda'
+import { using } from 'bluebird'
+import * as Promise from 'bluebird'
+import { curry, apply } from 'ramda'
+import { disposer } from 'util/promise'
 
 // launchBrowser :: Promise<Crawler.Browser>
 export const launchBrowser = () =>
@@ -11,7 +14,7 @@ export const launchBrowser = () =>
 // createBrowserPage :: Crawler.Browser -> Promise<Crawler.Page>
 export const createBrowserPage = browser => browser.newPage()
 
-// launchBrowserAndCreatePage :: romise<Crawler.Page>
+// launchBrowserAndCreatePage :: Promise<Crawler.Page>
 export const launchBrowserAndCreatePage = async () => {
   const browser = await launchBrowser()
   return await createBrowserPage(browser)
@@ -29,6 +32,12 @@ export const closePageWithBrowser = async page => {
   await closePage(page)
   return await closeBrowser(browser)
 }
+
+// usingBrowserPageCreator :: (Crawler.Page -> Promise<a>) -> Promise<a>
+export const usingBrowserPageCreator = consume => (...parameters) =>
+  using(disposer(launchBrowserAndCreatePage, closePageWithBrowser), page =>
+    apply(consume, [page, ...parameters])
+  )
 
 // gotoPage :: Crawler.Page -> Crawler.Page -> Promise<Crawler.Page>
 export const gotoPage = curry((url, page) => page.goto(url))

@@ -1,8 +1,7 @@
 import {
   gotoPage,
   pageWaitForSelector,
-  launchBrowserAndCreatePage,
-  closePageWithBrowser
+  usingBrowserPageCreator
 } from 'vendor/crawler'
 import { curryAsync } from 'util/ramda'
 import { get$RoomDetails, get$RoomDetailsAsObject } from './getters'
@@ -27,14 +26,14 @@ export const goToRoomDetailsPage = curryAsync(async (url, page) => {
 })
 
 // getRoomDetailsByUrl :: String -> Promise<Omnibees.RoomDetails>
-export const getRoomDetailsByUrl = curryAsync(async (lang, url) => {
-  const page = await launchBrowserAndCreatePage()
-  const urlWithLanguage = addLanguageToUrl(lang, url)
+export const getRoomDetailsByUrl = usingBrowserPageCreator(
+  curryAsync(async (page, lang, url) => {
+    const urlWithLanguage = addLanguageToUrl(lang, url)
 
-  await goToRoomDetailsPage(urlWithLanguage, page)
-  const $roomDetails = await get$RoomDetails(page)
-  const roomDetails = await get$RoomDetailsAsObject($roomDetails)
+    await goToRoomDetailsPage(urlWithLanguage, page)
+    const $roomDetails = await get$RoomDetails(page)
+    const roomDetails = await get$RoomDetailsAsObject($roomDetails)
 
-  await closePageWithBrowser(page)
-  return roomDetails
-})
+    return roomDetails
+  })
+)
