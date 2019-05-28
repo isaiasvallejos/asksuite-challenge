@@ -50,6 +50,7 @@ export const get$RoomAmenityList = handleEvaluate('p', $p => {
     .split(',')
     .map(value => value.trim())
     .map(value => value.replace(/\.$/, ''))
+    .filter(value => value !== '')
 })
 
 // get$RoomAmenityAsObject :: Omnibees.ElementHandle.RoomAmenity -> Promise<Omnibees.RoomAmenity>
