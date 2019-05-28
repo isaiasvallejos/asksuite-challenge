@@ -31,7 +31,7 @@ export const closePageWithBrowser = async page => {
 }
 
 // gotoPage :: Crawler.Page -> Crawler.Page -> Promise<Crawler.Page>
-export const gotoPage = curry((url, page) => page.goto(url))
+export const gotoPage = curry((url, page) => page.goto(url, { timeout: 50000 }))
 
 // pageQuerySelector :: Crawler.SelectorString -> Crawler.Page -> Promise<Crawler.ElementHandle>
 export const pageQuerySelector = curry((selector, page) => page.$(selector))
