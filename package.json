@@ -57,7 +57,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "accounting": "^0.4.1",
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "bluebird": "^3.5.4",
     "date-fns": "^2.0.0-alpha.27",
     "dotenv": "^6.2.0",
